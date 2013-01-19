@@ -36,3 +36,9 @@ fun number_in_months(dates : Date.date list, months : Date.month list) =
    		then []
    		else month_check(hd dates) @ dates_in_month( tl dates, month)
 	end
+(* 5 *)
+fun dates_in_months(dates : Date.date list, months : Date.month list) =
+         if null dates
+         then []
+         else dates_in_month(dates , hd months) @ dates_in_months(dates , tl months )
+
