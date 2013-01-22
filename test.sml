@@ -1,49 +1,36 @@
 
 use "assignment_01.sml";
 
-(*
 
-datatype weekday = Mon | Tue | Wed | Thu | Fri | Sat | Sun;
-datatype month
-  = Jan
-  | Feb
-  | Mar
-  | Apr
-  | May
-  | Jun
-  | Jul
-  | Aug
-  | Sep
-  | Oct
-  | Nov
-  | Dec
+val date1 = (12,10,2012);
+val date2 = (12,20,2012);
+val date3 = (11,20,2012);
+val strings = ["SML","IS","A","COOL","LANGUAGE"];
 
 
-*)
+(* 1 *)
+is_older(date1,date2) = true ;
+is_older(date1,date3) = false ;
 
 
-val d1 = {
-	day=19,
-	hour=19,
-	minute=27,
-	month=Date.Jan,
-	offset=NONE,
-	second=23,
-	year=2013};
+(* 2 *)
+number_in_month([date1,date2,date3],12) = 2;
 
-val date1 = Date.date d1;
+(* 3 *)
+number_in_months([date1,date2,date3],[12]) = 2;
+number_in_months([date1,date2,date3],[12,11]) = 3;
 
 
-val d2 = {
-	day=20,
-	hour=19,
-	minute=27,
-	month=Date.Jan,
-	offset=NONE,
-	second=23,
-	year=2013};
+(* 4 *)
+dates_in_month([date1,date2,date3],12) = [date1,date2];
 
-val date2 = Date.date d2;
+(* 5 *)
+dates_in_months([date1,date2,date3],[12]) = [date1,date2];
+dates_in_months([date1,date2,date3],[12,11]) = [date1,date2,date3];
 
-is_older(date1,date2);
+(* 6 *)
+get_nth(strings,3) = "A";
+get_nth(strings,4) = "COOL";
+get_nth2(strings,3) = "A";
+get_nth2(strings,4) = "COOL";
 
