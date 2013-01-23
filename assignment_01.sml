@@ -11,23 +11,9 @@ fun make_date(month:int,day:int,year:int) =
    This library already has Date and Time functions build in.
 *)
 
-(*
 
-val is_older = fn : (int * int * int) * (int * int * int) -> bool
-val number_in_month = fn : (int * int * int) list * int -> int
-val number_in_months = fn : (int * int * int) list * int list -> int
-val dates_in_month = fn : (int * int * int) list * int -> (int * int * int) list
-val dates_in_months = fn : (int * int * int) list * int list -> (int * int * int) list
-val get_nth = fn : string list * int -> string
-val date_to_string = fn : int * int * int -> string
-val number_before_reaching_sum = fn : int * int list -> int
-val what_month = fn : int -> int
-val month_range = fn : int * int -> int list
-val oldest = fn : (int * int * int) list -> (int * int * int) option
+(* 1 val is_older = fn : (int * int * int) * (int * int * int) -> bool *)
 
-*)
-
-(* 1 *)
 fun is_older(date1 : (int * int * int), date2: (int * int * int)) =
     let
       val d1 = make_date(#1 date1,#2 date1, #3 date1);
@@ -38,7 +24,8 @@ fun is_older(date1 : (int * int * int), date2: (int * int * int)) =
       else false
     end
 
-(* 2 *)
+(* 2 val number_in_month = fn : (int * int * int) list * int -> int *)
+
 fun number_in_month(dates : (int * int * int) list, nmonth : int) =
 	let fun month_check( date : (int * int * int)) =
 	   if Date.month((make_date date)) = List.nth(months,nmonth-1)
@@ -50,13 +37,15 @@ fun number_in_month(dates : (int * int * int) list, nmonth : int) =
    		else month_check(hd dates) + number_in_month( tl dates, nmonth)
 	end
 
-(* 3 *)
+(* 3 val number_in_months = fn : (int * int * int) list * int list -> int *)
+
 fun number_in_months(dates : (int * int * int) list, nmonths : int list) =
          if null dates orelse null nmonths
          then 0
          else number_in_month(dates , hd nmonths) + number_in_months(dates , tl nmonths )
 
- (* 4 *)
+ (* 4 val dates_in_month = fn : (int * int * int) list * int -> (int * int * int) list *)
+
  fun dates_in_month(dates : (int * int * int) list, nmonth : int) =
  	let fun month_check( date : (int * int * int)) =
 	   if Date.month((make_date date)) = List.nth(months,nmonth-1)
@@ -69,15 +58,14 @@ fun number_in_months(dates : (int * int * int) list, nmonths : int list) =
 	end
 
 
-(* 5 *)
+(* 5 val dates_in_months = fn : (int * int * int) list * int list -> (int * int * int) list *)
+
 fun dates_in_months(dates : (int * int * int) list, nmonths : int list) =
          if null dates orelse null nmonths
          then []
          else dates_in_month(dates , hd nmonths) @ dates_in_months(dates , tl nmonths )
 
-(* 6
-   There is a List.nth() function in the SMLNJ Library for this already !
-  *)
+(* 6 val get_nth = fn : string list * int -> string *)
 
 fun get_nth(strings : string list, n : int) =
   let fun count_up_to(shorter_strings : string list,i : int) =
@@ -91,3 +79,25 @@ fun get_nth(strings : string list, n : int) =
   end
 fun get_nth2(strings : string list, n : int) =
    List.nth(strings, n-1 )
+
+(* 7 val = date_to_string = fn : int * int * int -> string *)
+
+fun date_to_string(date : (int * int * int)) =
+   let
+
+    val nmonth = #1 date;
+    val day    = #2 date;
+    val year   = #3 date;
+
+    val month=List.nth(months,nmonth -1 );
+
+    val a_date = Date.date {day=day,hour=19,minute=27,month=month,offset=NONE,second=23,year=year};
+
+    in
+      Date.fmt "%B %d, %Y" a_date
+    end
+
+(* 8 val number_before_reaching_sum = fn : int * int list -> int *)
+(* 9 val what_month = fn : int -> int *)
+(* 10 val month_range = fn : int * int -> int list *)
+(* 11 val oldest = fn : (int * int * int) list -> (int * int * int) option *)
