@@ -100,28 +100,17 @@ fun date_to_string(date : (int * int * int)) =
 (* 8 val number_before_reaching_sum = fn : int * int list -> int *)
 
 fun number_before_reaching_sum(n : int , ns : int list) =
-  let  
-      val x = 0;
-  in
-       
-        let 
-           fun sum_up_to(n : int , ns : int list,counter :int) =
-             let 
-              val x = counter
-              in  
-                if (n - hd(ns)) <= 0
-                then 0
-                else hd(ns) + sum_up_to( n - hd(ns), tl(ns), counter + 1)
-              end
-        in 
-                sum_up_to(n , ns,1);
-      
-         end
+    let
+      fun sum_up_to(n : int ,ns : int list) =
+        if (n - hd(ns)) <= 0
+        then 0
+        else hd(ns) + sum_up_to( n - hd(ns), tl(ns))
+    in
+      sum_up_to(n,ns)
 
-   
-  end
-  
-  
+    end
+
+
 (* 9 val what_month = fn : int -> int *)
 (* 10 val month_range = fn : int * int -> int list *)
 (* 11 val oldest = fn : (int * int * int) list -> (int * int * int) option *)
