@@ -55,5 +55,13 @@ date_to_string(date3) = "November 20, 2012";
 
 (* 8 val number_before_reaching_sum = fn : int * int list -> int *)
 
-number_before_reaching_sum(7,[1,2,3,4,5,6,7,8,9]) = 6
+number_before_reaching_sum(7,[1,2,3,4,5,6,7,8,9]) = 6;
+number_before_reaching_sum(8,[1,2,3,4,5,6,7,8,9]) = 6;
+number_before_reaching_sum(9,[1,2,3,4,5,6,7,8,9]) = 6;
+number_before_reaching_sum(10,[1,2,3,4,5,6,7,8,9]) = 6;
+number_before_reaching_sum(11,[1,2,3,4,5,6,7,8,9]) = 10;
+number_before_reaching_sum(16,[1,2,3,4,5,6,7,8,9]) = 15;
+number_before_reaching_sum(20,[1,2,3,4,5,6,7,8,9]) = 15;
+number_before_reaching_sum(21,[1,2,3,4,5,6,7,8,9]) = 15;
+number_before_reaching_sum(22,[1,2,3,4,5,6,7,8,9]) = 21;
 
