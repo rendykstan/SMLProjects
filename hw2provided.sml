@@ -17,9 +17,13 @@ fun all_except_option(search_string, strings ) =
                    then f(xs', acc)
                    else f(xs', x :: acc)
   in
-     if length(f(strings,[])) = length(strings)
-     then []
-     else  ["yes"]
+    let  
+      val sub_strings = f(strings,[])
+    in  
+     if length(sub_strings) = length(strings)
+     then NONE
+     else  SOME sub_strings
+     end
   end
 
 
