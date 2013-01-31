@@ -8,6 +8,22 @@ fun same_string(s1 : string, s2 : string) =
 
 (* put your solutions for problem 1 here *)
 
+
+fun all_except_option(search_string, strings ) =
+ let fun f (xs,acc) =
+    case xs of
+     [] => acc
+     | x :: xs' => if same_string(search_string,x)
+                   then f(xs', acc)
+                   else f(xs', x :: acc)
+  in
+     if length(f(strings,[])) = length(strings)
+     then []
+     else  ["yes"]
+  end
+
+
+
 (* you may assume that Num is always used with values 2, 3, ..., 10
    though it will not really come up *)
 datatype suit = Clubs | Diamonds | Hearts | Spades
