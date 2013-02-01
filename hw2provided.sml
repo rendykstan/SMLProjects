@@ -58,7 +58,7 @@ fun all_except_option(search_string, strings ) =
     in
       f(strings_list_list,[])
     end
-    
+
 
  fun similar_names( strings_list_list, {first,middle,last}) =
             let
@@ -77,7 +77,7 @@ fun all_except_option(search_string, strings ) =
                                     else f( ys, acc @ make_name(sub_strings_list,[]))
                                   end
             in
-              f([strings_list_list],[{first=first,middle=middle,last=last}]) 
+              f([strings_list_list],[{first=first,middle=middle,last=last}])
             end
 
 
@@ -95,3 +95,11 @@ datatype move = Discard of card | Draw
 exception IllegalMove
 
 (* put your solutions for problem 2 here *)
+
+
+fun card_color(card) =
+  case card of
+   (Spades , _) => Black
+   |(Clubs , _) => Black
+   |(Diamonds , _) => Red
+   |(Hearts , _) => Red

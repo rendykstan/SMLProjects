@@ -23,3 +23,9 @@ similar_names([["Fred","Fredrick"],["Elizabeth","Betty"],["Freddie","Fred","F"]]
 {first="Freddie", last="Smith", middle="W"},
 {first="F", last="Smith", middle="W"}] ; (* Should be true *)
 
+
+(* 2.a *)
+card_color(Spades,Ace) = Black;
+card_color(Clubs,Ace) = Black;
+card_color(Diamonds,Ace) = Red;
+card_color(Hearts,Ace) = Red;
