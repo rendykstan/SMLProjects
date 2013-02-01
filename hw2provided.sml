@@ -60,35 +60,24 @@ fun all_except_option(search_string, strings ) =
     end
 
  fun similar_names( strings_list_list, {first,middle,last}) =
-
-
             let
-
-
               fun make_name(xs,acc) =
                   case xs of
                   [] => acc
-                  | x :: xs' =>   make_name(xs',{first="xxx", middle=middle, last=last} :: acc);
-
+                  | x :: xs' =>   make_name(xs',{first=x, middle=middle, last=last} :: acc);
               fun f(xs,acc) =
                 case xs of
                   [] => acc
-                  | xs :: ys  => let
-                                  val sub_strings_list  = get_substitutions2(first,xs);
-                                in
-                                  if SOME sub_strings_list = NONE
-                                  then f( ys, acc)
-                                  else f( ys, make_name(sub_strings_list,[])  @ acc)
-                                end
+                  | xs  :: ys  => let
+                                    val sub_strings_list  = get_substitutions2(xs,first);
+                                  in
+                                    if SOME sub_strings_list = NONE
+                                    then f( ys, acc)
+                                    else f( ys, acc @ make_name(sub_strings_list,[]))
+                                  end
             in
-              (*f(strings_list_list,[]) *)
-              [{first="Fred", last="Smith", middle="W"},
-        {first="Fredrick", last="Smith", middle="W"},
-        {first="Freddie", last="Smith", middle="W"},
-        {first="F", last="Smith", middle="W"}]
+              f([strings_list_list],[{first=first,middle=middle,last=last}]) 
             end
-
-
 
 
 
