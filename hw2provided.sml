@@ -103,3 +103,12 @@ fun card_color(card) =
    |(Clubs , _) => Black
    |(Diamonds , _) => Red
    |(Hearts , _) => Red
+
+fun card_value(card) =
+  case card of
+   (_ , Jack) => 10
+   |(_ , Queen) => 10
+   |(_ , King) => 10
+   |(_ , Ace) => 11
+   | (_,Num  x) => x
+

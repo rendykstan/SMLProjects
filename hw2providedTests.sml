@@ -29,3 +29,16 @@ card_color(Spades,Ace) = Black;
 card_color(Clubs,Ace) = Black;
 card_color(Diamonds,Ace) = Red;
 card_color(Hearts,Ace) = Red;
+
+
+(* 2.b *)
+card_value(Spades,Ace) = 11;
+card_value(Clubs,Ace) = 11;
+card_value(Diamonds,Ace) = 11;
+card_value(Hearts,Ace) = 11;
+
+card_value(Spades,Num 9) = 9;
+card_value(Spades,Num 3) = 3;
+card_value(Clubs,Jack) = 10;
+card_value(Diamonds,Queen) = 10;
+card_value(Hearts,King) = 10;
