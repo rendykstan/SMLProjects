@@ -42,3 +42,11 @@ card_value(Spades,Num 3) = 3;
 card_value(Clubs,Jack) = 10;
 card_value(Diamonds,Queen) = 10;
 card_value(Hearts,King) = 10;
+
+(* 2.c *)
+remove_card([(Spades,Ace),(Spades,Jack)],(Clubs,Queen),NoCardsFound) =  NoCardsFound;
+remove_card([(Spades,Ace),(Spades,Jack)],(Spades,Queen),NoCardsFound) =  NoCardsFound;
+remove_card([(Spades,Ace),(Spades,Jack)],(Spades,Ace),NoCardsFound) = [(Spades,Jack)];
+
+
+

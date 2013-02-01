@@ -96,19 +96,52 @@ exception IllegalMove
 
 (* put your solutions for problem 2 here *)
 
+exception NoCardsFound
 
 fun card_color(card) =
   case card of
-   (Spades , _) => Black
-   |(Clubs , _) => Black
+    (Spades   , _) => Black
+   |(Clubs    , _) => Black
    |(Diamonds , _) => Red
-   |(Hearts , _) => Red
+   |(Hearts   , _) => Red
 
 fun card_value(card) =
   case card of
-   (_ , Jack) => 10
+    (_ , Jack)  => 10
    |(_ , Queen) => 10
-   |(_ , King) => 10
-   |(_ , Ace) => 11
-   | (_,Num  x) => x
+   |(_ , King)  => 10
+   |(_ , Ace)   => 11
+   |(_ , Num  x)  => x
+
+
+fun same(c1 , c2 ) =
+    c1 = c2
+
+
+fun all_cards_except_option(pick, cards ) =
+ let fun f (xs,acc) =
+    case xs of
+     [] => acc
+     | x :: xs' => if same(pick,x)
+                   then f(xs', acc)
+                   else f(xs', x :: acc)
+  in
+    let
+      val cards_left = f(cards,[])
+    in
+     if length(cards_left) = length(cards)
+     then  NONE
+     else  SOME cards_left
+     end
+  end
+
+
+fun remove_card( deck , pick , ex) =
+  let
+     val cards_left = all_cards_except_option(pick,deck)
+    in
+      if cards_left = NONE
+      then raise ex
+      else getOpt(cards_left,[])
+   end
 
