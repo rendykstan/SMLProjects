@@ -58,6 +58,7 @@ fun all_except_option(search_string, strings ) =
     in
       f(strings_list_list,[])
     end
+    
 
  fun similar_names( strings_list_list, {first,middle,last}) =
             let
