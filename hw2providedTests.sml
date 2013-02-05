@@ -44,9 +44,29 @@ card_value(Diamonds,Queen) = 10;
 card_value(Hearts,King) = 10;
 
 (* 2.c *)
-remove_card([(Spades,Ace),(Spades,Jack)],(Clubs,Queen),NoCardsFound) =  NoCardsFound;
-remove_card([(Spades,Ace),(Spades,Jack)],(Spades,Queen),NoCardsFound) =  NoCardsFound;
-remove_card([(Spades,Ace),(Spades,Jack)],(Spades,Ace),NoCardsFound) = [(Spades,Jack)];
+val c1 = (Spades,Ace);
+val c2 = (Spades,Jack);
+val c3 = (Clubs,Queen);
+val c4 = (Spades,Queen);
+
+val y = remove_card([c1,c2],c3,NoCardsFound)  handle NoCardsFound  => [c1,c2];
+val x = remove_card([c1,c2],c4,NoCardsFound)  handle NoCardsFound  => [c1,c2];
+
+remove_card([c1,c2],c1,NoCardsFound) = [c2];
+
+(* 2.d *)
+
+all_same_color([(Spades,Ace),(Clubs,Ace),(Clubs,King)]) = true;
+all_same_color([(Spades,Ace),(Diamonds,Ace)]) = false;
 
 
+(* 2.e *)
+
+sum_cards([c1,c2]) = 21;
+sum_cards([(Spades,Num 9),(Clubs,Num 3),(Spades,King)]) = 22;
+
+(* 2.f *)
+
+score([c1,c2],5) = 21 - 5;
+score([(Spades,Num 9),(Clubs,Num 3),(Spades,King)],25) = 25 - 22;
 
