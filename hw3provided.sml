@@ -9,6 +9,7 @@ datatype pattern = Wildcard
 		 | TupleP of pattern list
 		 | ConstructorP of string * pattern
 
+
 datatype valu = Const of int
 	      | Unit
 	      | Tuple of valu list
@@ -53,7 +54,6 @@ fun longest_string2 strings =
 
 
 (* 4 *)
-
 fun longest_string_helper(compare_function,strings) =
 	    List.foldl ( fn (x,y) => if compare_function(String.size(x),String.size(y)) then x else y ) "" strings
 
@@ -73,8 +73,18 @@ fun longest_string4 strings =
         longest_string_helper(compare_function,strings)
     end
 
+(* 5 *)
 fun longest_capitalized strings =
       (longest_string2 o only_capitals) strings
 
+(* 6 *)
 fun rev_string x =
     (String.implode o List.rev o String.explode) x
+
+(* 7 *)
+fun first_answer f xs = 
+     case f xs of
+        NONE => raise NoAnswer
+      | SOME v => v
+      | f x::xs' => fxs'
+
