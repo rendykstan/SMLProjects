@@ -73,3 +73,8 @@ fun longest_string4 strings =
         longest_string_helper(compare_function,strings)
     end
 
+fun longest_capitalized strings =
+      (longest_string2 o only_capitals) strings
+
+fun rev_string x =
+    (String.implode o List.rev o String.explode) x
