@@ -83,8 +83,8 @@ fun rev_string x =
 
 (* 7 *)
 fun first_answer f xs = 
-     case f xs of
+     case (List.mapPartial f xs) of
         NONE => raise NoAnswer
       | SOME v => v
-      | f x::xs' => fxs'
+  
 
