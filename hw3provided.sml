@@ -82,9 +82,11 @@ fun rev_string x =
     (String.implode o List.rev o String.explode) x
 
 (* 7 *)
-fun first_answer f xs = 
-     case f xs of
+fun first_answer(f,xs) = 
+    let 
+       val v = List.find f xs;
+    in
+     case v of
         NONE => raise NoAnswer
       | SOME v => v
-      | f x::xs' => fxs'
-
+    end
