@@ -82,6 +82,7 @@ fun rev_string x =
     (String.implode o List.rev o String.explode) x
 
 (* 7 *)
+<<<<<<< HEAD
 fun first_answer(f,xs) = 
     let 
        val v = List.find f xs;
@@ -90,3 +91,11 @@ fun first_answer(f,xs) =
         NONE => raise NoAnswer
       | SOME v => v
     end
+=======
+fun first_answer f xs = 
+     case (List.mapPartial f xs) of
+        NONE => raise NoAnswer
+      | SOME v => v
+  
+
+>>>>>>> 78bba3b04d156ca0dac6891e704a4a19c86aeab0
