@@ -86,3 +86,17 @@ fun first_answer(f,xs) =
     case List.mapPartial f xs of
        [] => raise NoAnswer
      | v::vs => v
+
+(* 8 *)
+fun all_answers f xs  =
+let fun helper (x, acc) =
+        case x of
+         [] => acc
+         | head :: tail => case f head of
+                           NONE =>  []
+                           | SOME v => helper(tail,(v) @ acc)
+in
+     case (helper(xs,[])) of
+       [] => NONE
+       | head::tail => SOME (head::tail)
+end  
