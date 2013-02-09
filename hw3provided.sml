@@ -99,4 +99,12 @@ in
      case (helper(xs,[])) of
        [] => NONE
        | head::tail => SOME (head::tail)
-end  
+end
+
+(* 9 *)
+fun count_wildcards p =
+ let
+    val couunt_function = fn (x) => Wildcard ;
+ in
+   g couunt_function (fn (x) => 1) p
+ end
