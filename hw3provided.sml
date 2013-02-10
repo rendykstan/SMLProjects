@@ -103,8 +103,11 @@ end
 
 (* 9 *)
 fun count_wildcards p =
- let
-    val couunt_function = fn (x) => Wildcard ;
+ let fun counter(x , acc) =
+      case x of
+        [] => acc
+        | head::tail => counter(tail, 1 + acc)
+
  in
-   g couunt_function (fn (x) => 1) p
+     g counter (fn (x) => String.size x) p
  end
