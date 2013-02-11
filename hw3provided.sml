@@ -101,13 +101,5 @@ in
        | head::tail => SOME (head::tail)
 end
 
-(* 9 *)
-fun count_wildcards p =
- let fun counter(x , acc) =
-      case x of
-        [] => acc
-        | head::tail => counter(tail, 1 + acc)
 
- in
-     g counter (fn (x) => String.size x) p
- end
+
