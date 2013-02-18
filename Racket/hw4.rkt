@@ -22,10 +22,18 @@
 
 ; Problem 1
 
-(define (sequence low high stride)
+(define (sequence_bad_style low high stride)
   (if (> (+ low stride) high)
      ( if (> low high) null (list low)   ) 
      (cons low (sequence (+ low stride) high stride))
    )
  )
 
+(define (sequence low high stride)
+  ( cond 
+     [ (> (+ low stride) high) null]    
+     [ (> low high) (list low)]
+     [ #t (cons low (sequence (+ low stride) high stride))]
+  )
+  
+  )
