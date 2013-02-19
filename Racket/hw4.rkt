@@ -29,6 +29,7 @@
    )
  )
 
+
 (define (sequence low high stride)
   ( cond 
      [ (> (+ low stride) high) null]    
@@ -37,3 +38,33 @@
   )
   
   )
+
+; Problem 2
+(define (string-append-map xs suffix)
+        (map 
+          (lambda (x)  
+            (string-append x suffix)  
+          ) 
+          xs
+         )  
+  )
+
+; Problem 3
+(define (list-nth-mod xs n)
+     (cond
+        [ (null? xs)  (error "list-nth-mod: empty list")]
+        [ (< n 0) (error "list-nth-mod: negative number") ]
+        [ #t (last
+              (take 
+               xs 
+               (+ 
+                1 
+                (modulo 
+                  (length xs)
+                  n
+                )
+               ) 
+              )
+             )]
+     )
+ )

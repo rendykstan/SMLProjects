@@ -53,9 +53,9 @@
 
 (define nums (sequence 0 5 1))
 
-;(define files (string-append-map 
-;               (list "dan" "dog" "curry" "dog2") 
-;               ".jpg"))
+(define files (string-append-map 
+               (list "dan" "dog" "curry" "dog2") 
+               ".jpg"))
 
 ;(define funny-test (stream-for-n-steps funny-number-stream 16))
 
