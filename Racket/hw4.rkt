@@ -77,12 +77,33 @@
   (letrec (
         [f (lambda (shortened_stream new_list acc) 
              (cond
-                [(> acc n) new_list]
-                [ #t (f (car shortened_stream) (append new_list (cdr shortened_stream) ) (+ 1 acc) )]
+                [(>= acc n) new_list]
+                [ #t (f (cdr (shortened_stream)) (cons  (car (shortened_stream))  new_list ) (+ 1 acc) )]
               )
            )
         ]
         )
-      (f a_stream '() 0)
+     (reverse (f a_stream '() 0))
    )
  )
+
+; Problem 5
+
+(define (stream-maker fn arg)
+  (letrec ([f (lambda (x) 
+                (cons x (lambda () (f (fn x arg)))))])
+    (lambda () (f arg))))
+
+(define (funny_addition x y )
+  (letrec
+      (
+        [sum (+ (abs x) (abs y) )]
+       )
+  ( cond 
+     [ (= (modulo sum 5 ) 0) (* sum -1)]    
+     [ #t sum]
+  )
+  )
+  )
+
+(define funny-number-stream  (stream-maker funny_addition 1))
