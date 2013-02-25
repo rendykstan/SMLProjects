@@ -57,7 +57,7 @@
                (list "dan" "dog" "curry" "dog2") 
                ".jpg"))
 
-;(define funny-test (stream-for-n-steps funny-number-stream 16))
+(define funny-test (stream-for-n-steps funny-number-stream 16))
 
 ; a zero-argument function: call (one-visual-test) to open the graphics window, etc.
 ;(define (one-visual-test)

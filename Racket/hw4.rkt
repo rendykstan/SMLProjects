@@ -68,3 +68,21 @@
              )]
      )
  )
+
+; Problem 4
+
+
+
+(define (stream-for-n-steps a_stream n)
+  (letrec (
+        [f (lambda (shortened_stream new_list acc) 
+             (cond
+                [(> acc n) new_list]
+                [ #t (f (car shortened_stream) (append new_list (cdr shortened_stream) ) (+ 1 acc) )]
+              )
+           )
+        ]
+        )
+      (f a_stream '() 0)
+   )
+ )
