@@ -22,7 +22,11 @@
 
 ;; Problem 1
 
-;; CHANGE (put your solutions here)
+(define (racketlist vallist)
+      (cond
+        [(string? (car vallist) ) (var (car vallist))]
+        )
+   )
 
 ;; Problem 2
 
