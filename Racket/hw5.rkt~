@@ -22,42 +22,11 @@
 
 ;; Problem 1
 
-
-;(racketlist->mupllist (list (var "foo") (int 17)))
-; -> (apair (var "foo") (apair (int 17) (aunit)))
-
-(define (racketlist->mupllist racketlist)
-(letrec (
-        
-        [f (lambda (shortened_racketlist muplist) 
-             (cond
-                [(null? shortened_racketlist) muplist]
-                [ #t (f (cdr shortened_racketlist) (apair  (car shortened_racketlist) muplist )   )]
-              )
-           )
-        ]
+(define (racketlist vallist)
+      (cond
+        [(string? (car vallist) ) (var (car vallist))]
         )
-     (f (reverse racketlist) (aunit))
-   )   
-)
-
-
-;(mupllist->racketlist (apair (var "foo") (apair (int 17) (aunit))))
-; -> (list (var "foo") (int 17)))
-(define (mupllist->racketlist mupllist)
-(letrec (
-        
-        [f (lambda (shortened_mupllist racketlist) 
-             (match shortened_mupllist
-                [(aunit) racketlist]
-                [ _ (f (apair-e2 shortened_mupllist) (cons (apair-e1 shortened_mupllist) racketlist))]
-              )
-           )
-        ]
-        )
-     (reverse (f mupllist '()))
-   )   
-)
+   )
 
 ;; Problem 2
 
@@ -84,24 +53,7 @@
                        (int-num v2)))
                (error "MUPL addition applied to non-number")))]
         ;; CHANGE add more cases here
-        [(int? e) e]
-        [(ifgreater? e)
-         (let ([v1 (eval-under-env (ifgreater-e1 e) env)]
-               [v2 (eval-under-env (ifgreater-e2 e) env)]
-               [v3 (ifgreater-e3 e) ]
-               [v4 (ifgreater-e4 e) ])
-           (if (and (int? v1) (int? v2) (> (int-num v1) (int-num v2))) v3 v4))]
-        [(apair? e)
-         (let ([v1 (eval-under-env (apair-e1 e) env)]
-               [v2 (eval-under-env (apair-e2 e) env)]
-           )
-           (apair v1 v2))]
-        [(fst? e)
-         (let ([v (eval-under-env (fst-e e) env)])
-           (if (apair? v) (apair-e1 v) v))]
-        [#t (error "bad MUPL expression")]
-        
-        ))
+        [#t (error "bad MUPL expression")]))
 
 ;; Do NOT change
 (define (eval-exp e)
