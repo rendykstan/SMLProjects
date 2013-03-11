@@ -39,6 +39,14 @@ class MyTetris < Tetris
 
     # Enhancement #1 . Just rotated piece twice
     @root.bind('u', proc {@board.rotate_180})
+
+    @root.bind('c',proc do 
+    						if @board.score >= 100
+    							@board.score = @board.score - 100 if @board.score > 100
+    							@board.cheat = true
+    						end
+    					end
+    			)
  
   end
 
@@ -49,9 +57,12 @@ end
 class MyPiece < Piece
   # The constant All_My_Pieces should be declared here
   # class method to choose the next piece
-  def self.next_piece (board)
-    MyPiece.new(All_Pieces.sample, board)
+  def self.next_piece (board,cheat=nil)
+  	square = [[[0, 0], [0, 0], [0, 0], [0,0]]]
+    cheat ? MyPiece.new(square, board) : MyPiece.new(All_Pieces.sample, board)
   end
+
+
 
    # class array holding all the pieces and their rotations
   All_Pieces = [
@@ -67,7 +78,7 @@ class MyPiece < Piece
 	[[[0, 0], [-1, 0], [1, 0], [2, 0],[3, 0]], # Enhcance #2
 	[[0, 0], [0, -1], [0, 1], [0, 2],[0, 3]]],
 	rotations([[0, 0], [0,0] , [0, 1], [1, 1]]),# Enhcance #2
-	rotations([[0, 0], [0, -1], [0, 1], [-1, 1],[-1,0]]) # Enhcance #2
+	rotations([[0, 0], [0, -1], [0, 1], [-1, 1],[-1,0]]), # Enhcance #2
 
 
                ] 
@@ -79,6 +90,7 @@ end
 
 class MyBoard < Board
   # your enhancements here
+  attr_accessor :score,:cheat
 
   def initialize (game)
     @grid = Array.new(num_rows) {Array.new(num_columns)}
@@ -90,9 +102,12 @@ class MyBoard < Board
 
   # gets the next piece
   def next_piece
-    @current_block = MyPiece.next_piece(self)
+    @current_block = MyPiece.next_piece(self,@cheat)
     @current_pos = nil
+    @cheat = nil
   end
+
+  
 
 
   def rotate_180
