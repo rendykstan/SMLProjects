@@ -59,13 +59,13 @@ class MyPiece < Piece
   # class method to choose the next piece
   def self.next_piece (board,cheat=nil)
   	square = [[[0, 0], [0, 0], [0, 0], [0,0]]]
-    cheat ? MyPiece.new(square, board) : MyPiece.new(All_Pieces.sample, board)
+    cheat ? MyPiece.new(square, board) : MyPiece.new(All_My_Pieces.sample, board)
   end
 
 
 
    # class array holding all the pieces and their rotations
-  All_Pieces = [
+  All_My_Pieces = [
 
   	[[[0, 0], [1, 0], [0, 1], [1, 1]]],  # square (only needs one)
 	rotations([[0, 0], [-1, 0], [1, 0], [0, -1]]), # T
@@ -84,7 +84,7 @@ class MyPiece < Piece
                ] 
   # your enhancements here
   def self.piecies
-  	 All_Pieces
+  	 All_My_Pieces
   end
 end
 
