@@ -37,20 +37,20 @@ class GeometryValue < GeometryExpression
   private
   # some helper methods that may be generally useful
   def real_close(r1,r2)
-      (r1 - r2).abs < GeometryExpression::Epsilon
+    (r1 - r2).abs < GeometryExpression::Epsilon
   end
   def real_close_point(x1,y1,x2,y2)
-      real_close(x1,x2) && real_close(y1,y2)
+    real_close(x1,x2) && real_close(y1,y2)
   end
   # two_points_to_line could return a Line or a VerticalLine
   def two_points_to_line(x1,y1,x2,y2)
-      if real_close(x1,x2)
-        VerticalLine.new x1
-      else
-        m = (y2 - y1).to_f / (x2 - x1)
-        b = y1 - m * x1
-        Line.new(m,b)
-      end
+    if real_close(x1,x2)
+      VerticalLine.new x1
+    else
+      m = (y2 - y1).to_f / (x2 - x1)
+      b = y1 - m * x1
+      Line.new(m,b)
+    end
   end
 
   public
@@ -126,16 +126,16 @@ class Point < GeometryValue
   end
 
   def shift(deltaX,deltaY)
-     Point.new(@x + deltaX,@y + deltaY)
-  end
+   Point.new(@x + deltaX,@y + deltaY)
+ end
 
-  def intersect(point)
-     if real_close_point(self.x,self.y,point.x,point.y)
-       self
-    else
-      NoPoints.new
-    end
+ def intersect(point)
+   if real_close_point(self.x,self.y,point.x,point.y)
+     self
+   else
+    NoPoints.new
   end
+end
 
 end
 
@@ -147,6 +147,32 @@ class Line < GeometryValue
     @m = m
     @b = b
   end
+
+  def eval_prog env
+    self # all values evaluate to self
+  end
+  def preprocess_prog
+    self # no pre-processing to do here
+  end
+
+  def shift(deltaX,deltaY)
+   Line.new(m,(@b+deltaY)-(@m*deltaX))
+ end
+
+ def intersect(line)
+  if real_close(self.m,line.m) and real_close(self.b,line.b)
+    self
+  elsif  real_close(self.m,line.m) and !real_close(self.b,line.b)
+    NoPoints.new
+  else
+    x_intersect = (line.b - self.b) / (self.m - line.m)
+    y_intersect = self.m * x_intersect + self.b
+    Point.new(x_intersect,y_intersect)
+  end
+
+end
+
+
 end
 
 class VerticalLine < GeometryValue
@@ -156,6 +182,26 @@ class VerticalLine < GeometryValue
   def initialize x
     @x = x
   end
+
+  def eval_prog env
+    self # all values evaluate to self
+  end
+  def preprocess_prog
+    self # no pre-processing to do here
+  end
+
+  def shift(deltaX,deltaY)
+   VerticalLine.new(@x + deltaX)
+ end
+
+ def intersect(vertica_line)
+  if real_close(self.x,vertica_line.x)
+    self
+  else
+    NoPoints.new
+  end
+end
+
 end
 
 class LineSegment < GeometryValue
@@ -171,6 +217,43 @@ class LineSegment < GeometryValue
     @x2 = x2
     @y2 = y2
   end
+
+   def eval_prog env
+    self # all values evaluate to self
+  end
+  def preprocess_prog
+    if real_close_point(self.x1,self.y1,self.x2,self.y2)
+      Point.new(self.x1,self.y1)
+    elsif self.x1 <= self.x2 and self.y1 <= self.y2
+      self
+    else
+      LineSegment.new(self.x2,self.y2,self.x1,self.y1)
+    end
+  end
+
+  def shift(deltaX,deltaY)
+   LineSegment.new(self.x1+deltaX,self.y1+deltaY,self.x2+deltaX,self.y2+deltaY)
+ end
+
+ def intersect(line_segment)
+
+    m1 = (self.y1-self.y2)/(self.x1-self.x2)
+    b1 = self.y1 - (m1 * self.x2)
+    line1 = Line.new( m1,b1)
+
+    m2 = (line_segment.y1-line_segment.y2)/(line_segment.x1-line_segment.x2)
+    b2 = line_segment.y1 - (m1 * line_segment.x2)
+    line2 = Line.new( m2,b2)
+
+    obj = line1.intersect(line2)
+
+      if  obj.is_a? Line
+        return self
+      else
+        return obj
+      end
+ end
+
 end
 
 # Note: there is no need for getter methods for the non-value classes
