@@ -360,17 +360,57 @@ class LineSegment < GeometryValue
 
  def intersect(line_segment)
 
-    line1 = two_points_to_line(x1,y1,x2,y2)
+     find_point(line_segment)
 
-    line2 = two_points_to_line(line_segment.x1,line_segment.y1,line_segment.x2,line_segment.y2)
+ end
 
-    obj = line1.intersect(line2)
+ def find_point(line_segment)
 
-      if  obj.is_a? Line
-        return self
-      else
-        return obj
-      end
+        x1start,y1start,x1end,y1end = x1,y1,x2,y2
+        x2start,y2start,x2end,y2end = line_segment.x1,line_segment.y1,line_segment.x2,line_segment.y2
+
+        if real_close(x1start,x1end) # self is a vertical line
+           if y1start < y2start
+            aXstart,aYstart,aXend,aYend  = x1,y1,x2,y2
+            bXstart,bYstart,bXend,bYend  = line_segment.x1,line_segment.y1,line_segment.x2,line_segment.y2
+           else
+            aXstart,aYstart,aXend,aYend  = line_segment.x1,line_segment.y1,line_segment.x2,line_segment.y2
+            bXstart,bYstart,bXend,bYend  = x1,y1,x2,y2
+           end
+
+            if real_close(aYend,bYstart)
+               result = Point.new(aXend,aYend) # just touching
+            elsif aYend < bYstart
+               result = NoPoints.new # disjoint
+            elsif aYend > bYend
+               result = LineSegment.new(bXstart,bYstart,bXend,bYend) # b inside a
+            else
+               result = LineSegment.new(bXstart,bYstart,aXend,aYend)  # overlapping
+            end
+
+        else
+
+          if x1start < x2start
+            aXstart,aYstart,aXend,aYend  = x1,y1,x2,y2
+            bXstart,bYstart,bXend,bYend  = line_segment.x1,line_segment.y1,line_segment.x2,line_segment.y2
+           else
+            aXstart,aYstart,aXend,aYend  = line_segment.x1,line_segment.y1,line_segment.x2,line_segment.y2
+            bXstart,bYstart,bXend,bYend  = x1,y1,x2,y2
+          end
+
+          if real_close(aXend,bXstart)
+                result = Point.new(aXend,aYend) # just touching
+          elsif aXend < bXstart
+                result = NoPoints.new # disjoint
+          elsif aXend > bXend
+                result = LineSegment.new(bXstart,bYstart,bXend,bYend) # b inside a
+          else
+                result = LineSegment.new(bXstart,bYstart,aXend,aYend)  # overlapping
+
+          end
+        end
+
+
  end
 
   def intersect_with(v)
@@ -421,8 +461,14 @@ class Intersect < GeometryExpression
   end
 
   def preprocess_prog
-    @e1.preprocess_prog.eval_prog([]).intersect_with @e2
+    @e1.preprocess_prog.eval_prog([]).intersect_with @e2.preprocess_prog.eval_prog([])
   end
+
+   def eval_prog env
+    @e1.preprocess_prog.eval_prog(env).intersect_with @e2.preprocess_prog.eval_prog(env)
+   end
+
+
 end
 
 class Let < GeometryExpression
@@ -434,6 +480,13 @@ class Let < GeometryExpression
     @e2 = e2
   end
 
+def preprocess_prog
+    self
+end
+
+def eval_prog env
+  @e2.eval_prog [[@s,@e1]]
+end
 
 end
 
@@ -444,11 +497,15 @@ class Var < GeometryExpression
     @s = s
   end
 
+  def preprocess_prog
+    self
+  end
+
  def eval_prog env
     env.each do |pair|
       return pair[1] if pair[0] == @s
     end
-    raise "var not found: #{s}"
+    raise "var not found: #{@s}"
   end
 
 
