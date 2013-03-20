@@ -162,6 +162,7 @@ class Point < GeometryValue
    else
     NoPoints.new
   end
+
 end
 
 
@@ -485,7 +486,10 @@ def preprocess_prog
 end
 
 def eval_prog env
-  @e2.eval_prog [[@s,@e1]]
+
+  #eval_prog (e2, ((s, eval_prog(e1,env)) :: env))
+
+  @e2.eval_prog (env << [@s,@e1.eval_prog(env)])
 end
 
 end
@@ -519,4 +523,9 @@ class Shift < GeometryExpression
     @dy = dy
     @e = e
   end
+
+  def preprocess_prog
+    @e.preprocess_prog.eval_prog([]).shift(@dx,@dy)
+  end
+
 end
