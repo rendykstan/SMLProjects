@@ -191,6 +191,7 @@ end
 
   end
   def intersect_with_LineSegment(v)
+
     if inbetween(x,v.x1,v.x2) and inbetween(y,v.y1,v.y2)
 
       line = two_points_to_line(v.x1,v.y1,v.x2,v.y2)
@@ -430,7 +431,7 @@ class LineSegment < GeometryValue
       if real_close(line.y(v.x),v.y)
          v
       else
-        NoPoints.new
+        self #NoPoints.new
       end
 
     else
@@ -462,7 +463,7 @@ class Intersect < GeometryExpression
   end
 
   def preprocess_prog
-    @e1.preprocess_prog.eval_prog([]).intersect_with @e2.preprocess_prog.eval_prog([])
+    self #@e1.preprocess_prog.eval_prog([]).intersect_with @e2.preprocess_prog.eval_prog([])
   end
 
    def eval_prog env
@@ -489,7 +490,7 @@ def eval_prog env
 
   #eval_prog (e2, ((s, eval_prog(e1,env)) :: env))
 
-  @e2.eval_prog (env << [@s,@e1.eval_prog(env)])
+  @e2.eval_prog (env << [@s,@e1.preprocess_prog.eval_prog(env)])
 end
 
 end
