@@ -508,14 +508,14 @@ class Var < GeometryExpression
 
  def eval_prog env
     v = nil
-
     env.each do |pair|
-      v =  pair[0].to_s == @s.to_s ?  pair[1] : nil
+      if pair[0] == @s
+        v =  pair[1]
+      end
     end
     raise "#{env} var not found: #{@s}" if v.nil?
     v
   end
-
 
 end
 
