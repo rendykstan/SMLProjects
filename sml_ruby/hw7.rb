@@ -108,8 +108,6 @@ class NoPoints < GeometryValue
     self
   end
 
-  def intersect_with(v)
-  end
 
   def intersect_with(v)
     v.intersect_with_NoPoints self
