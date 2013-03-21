@@ -431,7 +431,7 @@ class LineSegment < GeometryValue
       if real_close(line.y(v.x),v.y)
          v
       else
-        self #NoPoints.new
+        NoPoints.new
       end
 
     else
@@ -490,7 +490,7 @@ def eval_prog env
 
   #eval_prog (e2, ((s, eval_prog(e1,env)) :: env))
 
-  @e2.eval_prog (env << [@s,@e1.preprocess_prog.eval_prog(env)])
+  @e2.eval_prog (env.concat [[@s,@e1.preprocess_prog.eval_prog(env)]])
 end
 
 end
@@ -507,10 +507,13 @@ class Var < GeometryExpression
   end
 
  def eval_prog env
+    v = nil
+
     env.each do |pair|
-      return pair[1] if pair[0] == @s
+      v =  pair[0].to_s == @s.to_s ?  pair[1] : nil
     end
-    raise "var not found: #{@s}"
+    raise "#{env} var not found: #{@s}" if v.nil?
+    v
   end
 
 
